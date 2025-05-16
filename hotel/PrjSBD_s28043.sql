@@ -233,7 +233,6 @@ BEGIN
         FETCH NEXT FROM SprawdzajacyKursor INTO @RezerwacjaID, @PokojID, @DataRozpoczecia, @DataZakonczenia;
     END
 
-    -- Zamknięcie kursora
     CLOSE SprawdzajacyKursor;
     DEALLOCATE SprawdzajacyKursor;
 END;
@@ -257,7 +256,6 @@ INSERT INTO Rezerwacja_pokoje (Rezerwacja_ID, Pokoj_ID)
 SELECT Rezerwacja_ID, Pokoj_ID
 FROM @NowaRezerwacja;
 
--- Jeśli chcesz zobaczyć wyniki, możesz wyświetlić zawartość tabeli Rezerwacja_pokoje
 SELECT * FROM Rezerwacja_pokoje;
 
 CREATE PROCEDURE SprawdzDostepnoscPokoju
@@ -266,7 +264,6 @@ CREATE PROCEDURE SprawdzDostepnoscPokoju
     @DataZakonczenia DATE
 AS
 BEGIN
-    -- Deklaracja zmiennej
     DECLARE @LiczbaZajetychPokoi INT;
     begin try
     -- Sprawdzenie, czy istnieje pokój o podanym ID
@@ -301,21 +298,16 @@ BEGIN
     BEGIN CATCH
         -- Obsługa błędu
         PRINT 'Wystąpił błąd podczas sprawdzania dostępności pokoju.';
-        -- Można dodatkowo użyć funkcji ERROR_MESSAGE() do uzyskania szczegółów błędu
     END CATCH
 END;
 
 
-
--- Deklaracja zmiennych
 DECLARE @PokojID int, @DataRozpoczecia date, @DataZakonczenia date;
 
--- Przypisanie wartości zmiennym
-SET @PokojID = 1; -- Załóżmy, że sprawdzamy dostępność pokoju o ID 1
+SET @PokojID = 1;
 SET @DataRozpoczecia = '2023-05-01';
 SET @DataZakonczenia = '2023-05-05';
 
--- Wywołanie procedury
 EXEC SprawdzDostepnoscPokoju 19, @DataRozpoczecia, @DataZakonczenia;
 
 
